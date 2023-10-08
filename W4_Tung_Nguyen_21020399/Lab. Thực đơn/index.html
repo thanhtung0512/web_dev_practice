@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vertical Food List</title>
+    <meta charset="UTF-8" />
+    <meta name="author" content="Nguyen Vu Thanh Tung - 21020399" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: -100px;
+      }
+
+      #food-list {
+        grid-column: 1;
+      }
+
+      .food-item {
+        padding: 10px;
+        background-color: lightgray;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 200px;
+      }
+
+      .food-item:hover {
+        background-color: white;
+      }
+
+      .food-item.selected {
+        background-color: blue;
+        color: white;
+      }
+
+      #selected-food {
+        position: fixed;
+        font-weight: bold;
+        grid-column: 2;
+        margin-left: 250px;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="food-list">
+        <div class="food-item">Lobster Thermidor</div>
+        <div class="food-item">Pizza Margherita</div>
+        <div class="food-item">Sushi</div>
+        <div class="food-item">Chocolate Lava Cake</div>
+        <div class="food-item">Chicken Biryani</div>
+      </div>
+      <div id="selected-food"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var foodItems = document.getElementsByClassName("food-item");
+        var selectedFood = document.getElementById("selected-food");
+        var selectedItem = null;
+
+        for (var i = 0; i < foodItems.length; i++) {
+          foodItems[i].addEventListener("click", function () {
+            if (selectedItem) {
+              selectedItem.classList.remove("selected");
+            }
+
+            this.classList.add("selected");
+            selectedItem = this;
+            selectedFood.textContent = this.textContent;
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

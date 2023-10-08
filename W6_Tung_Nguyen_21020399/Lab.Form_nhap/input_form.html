@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+  <meta name="description" content="Free Web tutorials">
+  <meta name="keywords" content="HTML,CSS,JavaScript">
+  <meta name="author" content="Nguyen Vu Thanh Tung - 21020399">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registration Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        width: 200px;
+        text-align: right;
+        margin-right: 10px;
+      }
+
+      .form-group input[type="text"],
+      .form-group input[type="password"],
+      .form-group textarea {
+        width: 250px;
+        margin-left: 100px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+
+      .form-group .checkbox-group {
+        margin-left: 100px;
+      }
+
+      .form-group .checkbox-group input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin-right: 5px;
+      }
+
+      .form-group input[type="radio"] {
+        margin-left: 100px;
+        margin-right: 5px;
+      }
+
+      .form-group .checkbox-group label {
+        cursor: pointer;
+      }
+
+      .required {
+        background-color: rgb(42, 255, 237);
+      }
+
+      .error {
+        color: red;
+      }
+
+      .form-buttons {
+        margin-left: 310px;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      .form-buttons button {
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: blue;
+      }
+
+      #dob {
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="registrationForm">
+      
+
+      <div class="form-group">
+        <label for="name">Họ tên:</label>
+        <input name="họ tên" type="text" id="name" class="required" autofocus />
+        <span id="nameError" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="address">Địa chỉ:</label>
+        <input name="địa chỉ" type="text" id="address" />
+      </div>
+      <div class="form-group">
+        <label>Giới tính:</label>
+        <div class="radio-group">
+          <input type="radio" id="male" name="gender" value="Male" />
+          <label for="male">Nam</label>
+          <input type="radio" id="female" name="gender" value="Female" />
+          <label for="female">Nữ</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dob">Ngày sinh:</label>
+        <input
+          style="color: gray"
+          name="ngày sinh"
+          type="text"
+          id="dob"
+          class="required"
+          placeholder="nn/tt/nnnn"
+        />
+        <span id="dobError" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="email">E-mail:</label>
+        <input name="email" type="text" id="email" class="required" />
+        <span id="emailError" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="phone">Điện thoại:</label>
+        <input name="số điện thoại" type="text" id="phone" />
+      </div>
+      <div class="form-group">
+        <label>Khoá đăng ký:</label>
+        <div class="checkbox-group">
+          <input type="checkbox" id="english" name="course" value="Tiếng Anh" />
+          <label for="english">Tiếng Anh</label>
+          <input
+            type="checkbox"
+            id="management"
+            name="course"
+            value="Quản trị"
+          />
+          <label for="management">Quản trị</label>
+          <input type="checkbox" id="it" name="course" value="CNTT" />
+          <label for="it">CNTT</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="username">Tên sử dụng:</label>
+        <input name="tên sử dụng" type="text" id="username" class="required" />
+        <span id="usernameError" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="password">Mật khẩu:</label>
+        <input name="mật khẩu" type="password" id="password" class="required" />
+        <span id="passwordError" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Gõ lại mật khẩu:</label>
+        <input
+          name=" lại mật khẩu"
+          type="password"
+          id="confirmPassword"
+          class="after-required"
+        />
+        <span id="confirmPasswordError" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="note">Ghi chú:</label>
+        <textarea id="note"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="profilePicture">Ảnh chân dung:</label>
+        <input style="margin-left: 100px" type="file" id="profilePicture" />
+      </div>
+
+      <div class="form-buttons">
+        <button
+          type="button"
+          id="submitButton"
+          style="background-color: rgb(33, 150, 243)"
+        >
+          Chấp nhận
+        </button>
+        <button
+          type="button"
+          id="ignoreButton"
+          style="background-color: rgb(33, 150, 243)"
+        >
+          Bỏ qua
+        </button>
+      </div>
+    </form>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Existing JavaScript code for input normalization, email validation, etc.
+
+        function standardizeName(input) {
+          const words = input.trim().split(" ");
+          const capitalizedWords = words.map(function (word) {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+          });
+          return capitalizedWords.join(" ");
+        }
+
+        const nameInput = document.getElementById("name");
+        nameInput.addEventListener("blur", function () {
+          const standardizedValue = standardizeName(this.value);
+          this.value = standardizedValue;
+        });
+
+        const requiredInputs = document.querySelectorAll(".required");
+        for (const input of requiredInputs) {
+          input.addEventListener("blur", function () {
+            this.nextElementSibling.textContent = "";
+          });
+        }
+
+        const nameField = document.getElementById("name");
+        nameField.focus();
+        const form = document.getElementById("registrationForm");
+        const inputs = form.querySelectorAll("input, textarea");
+
+        // Function to handle Enter key press
+        function handleEnterKey(event) {
+          event = event || window.event; // Check for event in IE
+          if (event.keyCode === 13) {
+            event.preventDefault();
+            const currentIndex = Array.from(inputs).indexOf(event.target);
+            const nextIndex = currentIndex + 1;
+            if (nextIndex < inputs.length) {
+              inputs[nextIndex].focus();
+            }
+          }
+        }
+
+        function handleInput(event) {
+          const input = event.target;
+          input.style.border = "2px solid";
+        }
+
+        // Add event listener for input keydown event on each input field
+        inputs.forEach(function (input) {
+          input.addEventListener("keydown", handleInput);
+        });
+
+        // Add event listener for Enter key press on each input field
+        inputs.forEach(function (input) {
+          input.addEventListener("keydown", handleEnterKey);
+        });
+
+        document
+          .getElementById("submitButton")
+          .addEventListener("click", function () {
+            let hasError = false;
+            for (const input of requiredInputs) {
+              if (!input.value) {
+                input.nextElementSibling.textContent =
+                  "Quý khách chưa nhập " + input.name;
+                hasError = true;
+              } else {
+                input.nextElementSibling.textContent = "";
+              }
+            }
+
+            // Check if the password field is not empty, and the re-entered password field is empty
+            const passwordInput = document.getElementById("password");
+            const confirmPasswordInput =
+              document.getElementById("confirmPassword");
+            if (passwordInput.value && !confirmPasswordInput.value) {
+              confirmPasswordInput.nextElementSibling.textContent =
+                "Quý khách chưa nhập" + confirmPasswordInput.name;
+              hasError = true;
+            } else {
+              confirmPasswordInput.nextElementSibling.textContent = "";
+            }
+
+            if (!hasError) {
+              alert("Form submitted successfully!");
+            }
+          });
+      });
+    </script>
+  </body>
+</html>

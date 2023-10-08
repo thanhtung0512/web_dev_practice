@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="description" content="Free Web tutorials" />
+    <meta name="keywords" content="HTML,CSS,JavaScript" />
+    <meta name="author" content="Nguyen Vu Thanh Tung - 21020399" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh sách nhân s?</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      table {
+        margin-top: 50px;
+        width: 50%;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #b6ff19;
+      }
+
+      tr:nth-child(even) {
+        background-color: #d1aeae;
+      }
+
+      tr.selected {
+        background-color: yellow !important;
+      }
+
+      tr:hover {
+        background-color: lightgreen;
+        cursor: pointer;
+      }
+
+      .checkbox {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="deleteButton" style="display: none">Delete</button>
+    <table>
+      <thead>
+        <tr>
+          <th class="checkbox"><input type="checkbox" id="selectAll" /></th>
+          <th>H? tên</th>
+          <th>Ngày sinh</th>
+          <th>Gi?i tính</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="checkbox"><input type="checkbox" /></td>
+          <td>Hoàng V?n A</td>
+          <td>23/6/1990</td>
+          <td>Nam</td>
+        </tr>
+        <tr>
+          <td class="checkbox"><input type="checkbox" /></td>
+          <td>Tr?n Th? B</td>
+          <td>1/1/2001</td>
+          <td>N?</td>
+        </tr>
+        <tr>
+          <td class="checkbox"><input type="checkbox" /></td>
+          <td>?ào Xuân C</td>
+          <td>3/3/2003</td>
+          <td>Nam</td>
+        </tr>
+
+        <tr>
+          <td class="checkbox"><input type="checkbox" /></td>
+          <td>T?ng Minh D</td>
+          <td>1/1/2002</td>
+          <td>Nam</td>
+        </tr>
+
+        <tr>
+          <td class="checkbox"><input type="checkbox" /></td>
+          <td>Nguy?n Trà E</td>
+          <td>3/6/2002</td>
+          <td>N?</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script>
+      const selectAllCheckbox = document.getElementById("selectAll");
+      const checkboxes = document.querySelectorAll(
+        'tbody input[type="checkbox"]'
+      );
+
+      // Toggle checkbox states when clicking the header checkbox
+      selectAllCheckbox.addEventListener("click", function () {
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = this.checked;
+          toggleRowColor(checkbox);
+        });
+        toggleDeleteButton();
+      });
+
+      const deleteButton = document.querySelector("#deleteButton");
+
+      // Hide the delete button initially
+      deleteButton.style.display = "none";
+
+      // Toggle the visibility of the delete button when a checkbox is checked or unchecked
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", function () {
+          toggleRowColor(this);
+          toggleDeleteButton();
+        });
+      });
+
+      // Delete the selected rows when the delete button is clicked
+      deleteButton.addEventListener("click", function () {
+        // Get all of the selected rows
+        const selectedRows = [...checkboxes]
+          .filter((checkbox) => checkbox.checked)
+          .map((checkbox) => checkbox.parentElement.parentElement);
+
+        // Delete the selected rows from the table
+        selectedRows.forEach((row) => row.remove());
+
+        // Clear the checkboxes
+        checkboxes.forEach((checkbox) => (checkbox.checked = false));
+
+        // Hide the delete button
+        deleteButton.style.display = "none";
+      });
+
+      // Toggle row background color and cursor on hover
+      document.querySelectorAll("tbody tr").forEach((row) => {
+        row.addEventListener("mouseover", function () {
+          this.style.backgroundColor = "lightgreen";
+          this.style.cursor = "pointer";
+        });
+        row.addEventListener("mouseout", function () {
+          if (!row.classList.contains("selected")) {
+            this.style.backgroundColor = "";
+          }
+        });
+      });
+
+      // Toggle row background color and checkbox whenclicking on a row
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("click", function () {
+          toggleRowColor(this);
+
+          // Check/uncheck "Select All" checkbox based on other checkboxes' states
+          const allChecked = [...checkboxes].every(
+            (checkbox) => checkbox.checked
+          );
+          selectAllCheckbox.checked = allChecked;
+          toggleDeleteButton();
+        });
+      });
+
+      function toggleRowColor(checkbox) {
+        const row = checkbox.parentElement.parentElement;
+        if (checkbox.checked) {
+          row.classList.add("selected");
+        } else {
+          row.classList.remove("selected");
+          row.style.backgroundColor = "";
+        }
+      }
+
+      function toggleDeleteButton() {
+        // Check if any checkbox is checked
+        const atLeastOneCheckboxChecked = [...checkboxes].some(
+          (checkbox) => checkbox.checked
+        );
+
+        // Toggle the visibility of the delete button
+        deleteButton.style.display = atLeastOneCheckboxChecked
+          ? "block"
+          : "none";
+      }
+    </script>
+  </body>
+</html>
