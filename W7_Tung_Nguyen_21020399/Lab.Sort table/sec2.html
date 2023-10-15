@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="description" content="Free Web tutorials" />
+    <meta name="keywords" content="HTML,CSS,JavaScript" />
+    <meta name="author" content="Nguyen Vu Thanh Tung - 21020399" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sortable Table</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th {
+        cursor: pointer;
+      }
+
+      th.sort-asc::after {
+        content: "\2191";
+        margin-left: 5px;
+      }
+
+      th.sort-desc::after {
+        content: "\2193";
+        margin-left: 5px;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Bảng này sắp xếp được theo cột 1, 2</h1>
+    <table id="data-table2">
+      <thead>
+        <tr>
+          <th>TT</th>
+          <th onclick="sortTable(1,'data-table2')">Mã sản phẩm</th>
+          <th onclick="sortTable(2,'data-table2')">Tên sản phẩm</th>
+        </tr>
+      </thead>
+      <tbody id="data-body">
+        <tr>
+          <td>1</td>
+          <td>SP002</td>
+          <td>Bếp đa năng</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>SP003</td>
+          <td>Lò sưởi</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>SP001</td>
+          <td>Máy giặt</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>SP005</td>
+          <td>Tủ lạnh</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>SP004</td>
+          <td>Điều hoà nhiệt độ</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h1>Bảng này sắp xếp được theo cột 1, 2, 3</h1>
+    <table id="data-table1">
+      <thead>
+        <tr>
+          <th>TT</th>
+          <th onclick="sortTable(1,'data-table1')">Mã sản phẩm</th>
+          <th onclick="sortTable(2,'data-table1')">Tên sản phẩm</th>
+          <th onclick="sortTable(3,'data-table1')">Xuất xứ</th>
+        </tr>
+      </thead>
+      <tbody id="data-body">
+        <tr>
+          <td>1</td>
+          <td>SP002</td>
+          <td>Bếp đa năng</td>
+          <td>Hàn Quốc</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>SP003</td>
+          <td>Lò sưởi</td>
+          <td>Mỹ</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>SP001</td>
+          <td>Máy giặt</td>
+          <td>Nhật Bản</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>SP005</td>
+          <td>Tủ lạnh</td>
+          <td>Nhật Bản</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>SP004</td>
+          <td>Điều hoà nhiệt độ</td>
+          <td>Việt Nam</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h1>Bảng này không sắp xếp được theo cột nào</h1>
+    <table id="data-table2">
+      <thead>
+        <tr>
+          <th>TT</th>
+          <th>Mã sản phẩm</th>
+          <th>Tên sản phẩm</th>
+        </tr>
+      </thead>
+      <tbody id="data-body">
+        <tr>
+          <td>1</td>
+          <td>SP002</td>
+          <td>Bếp đa năng</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>SP003</td>
+          <td>Lò sưởi</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>SP001</td>
+          <td>Máy giặt</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>SP005</td>
+          <td>Tủ lạnh</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>SP004</td>
+          <td>Điều hoà nhiệt độ</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script>
+      let sortOrder = 1; // 1 for ascending, -1 for descending
+      let sortedColumnIndex = -1; // -1 for unsorted
+
+      function sortTable(columnIndex, data_table) {
+        const table = document.getElementById(data_table);
+        const rows = Array.from(table.rows);
+
+        rows.shift(); // Remove the header row
+
+        rows.sort((a, b) => {
+          const cellA = a.cells[columnIndex].textContent.toLowerCase();
+          const cellB = b.cells[columnIndex].textContent.toLowerCase();
+
+          if (cellA < cellB) {
+            return -sortOrder;
+          } else if (cellA > cellB) {
+            return sortOrder;
+          }
+
+          return 0;
+        });
+
+        if (sortedColumnIndex !== -1) {
+          table.rows[0].cells[sortedColumnIndex].classList.remove(
+            "sort-asc",
+            "sort-desc"
+          );
+        }
+
+        if (sortedColumnIndex === columnIndex) {
+          sortOrder = -sortOrder;
+        } else {
+          sortedColumnIndex = columnIndex;
+        }
+
+        table.rows[0].cells[columnIndex].classList.add(
+          sortOrder === 1 ? "sort-asc" : "sort-desc"
+        );
+
+        for (let i = 0; i < rows.length; i++) {
+          table.appendChild(rows[i]);
+        }
+      }
+    </script>
+  </body>
+</html>

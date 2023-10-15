@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Load JSON Data</title>
+    <meta name="description" content="Free Web tutorials" />
+    <meta name="keywords" content="HTML,CSS,JavaScript" />
+    <meta name="author" content="Nguyen Vu Thanh Tung - 21020399" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body> <button onclick="loadData()">Tải dữ liệu vào bảng sau</button> <br /><br /> <table id="data-table"> <thead> <tr> <th>Họ và tên</th> <th>Tuổi</th> <th>Số lượng/Tên-mẫu xe</th> </tr> </thead> <tbody></tbody>
+    </table>
+
+    <script>
+      function loadData() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            displayData(data);
+          }
+        };
+        xhr.open("GET", "car.json", true);
+        xhr.send();
+      }
+
+      function displayData(data) {
+        var tableBody = document
+          .getElementById("data-table")
+          .getElementsByTagName("tbody")[0];
+        tableBody.innerHTML = "";
+
+        data.forEach(function (person) {
+          var row = document.createElement("tr");
+
+          var nameCell = document.createElement("td");
+          nameCell.textContent = person.name;
+          row.appendChild(nameCell);
+
+          var ageCell = document.createElement("td");
+          ageCell.textContent = person.age;
+          row.appendChild(ageCell);
+
+          var carsCell = document.createElement("td");
+          var carText = "";
+          carText += person.cars.length + "<br>";
+          person.cars.forEach(function (car) {
+            carText += car.name + ": " + car.models.join(", ") + "<br>";
+          });
+          carsCell.innerHTML = carText;
+          row.appendChild(carsCell);
+
+          tableBody.appendChild(row);
+        });
+      }
+    </script>
+  </body>
+</html>
