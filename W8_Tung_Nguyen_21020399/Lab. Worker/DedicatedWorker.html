@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Free Web tutorials" />
+    <meta name="keywords" content="HTML,CSS,JavaScript" />
+    <meta name="author" content="Nguyen Vu Thanh Tung - 21020399" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dedicated Worker Example</title>
+  </head>
+  <body>
+    <h1>Image Processing</h1>
+    <input type="file" id="imageInput" accept="image/*" />
+    <br />
+    <canvas id="outputCanvas"></canvas>
+
+    <script>
+      // Khi ng??i dùng ch?n t?p ?nh
+      document
+        .getElementById("imageInput")
+        .addEventListener("change", function (e) {
+          var file = e.target.files[0];
+          var reader = new FileReader();
+
+          reader.onload = function (event) {
+            var imageData = event.target.result;
+
+            processImage(imageData);
+          };
+
+          reader.readAsDataURL(file);
+        });
+
+      // X? lý ?nh b?ng dedicated worker
+      function processImage(imageData) {
+        var worker = new Worker("dedicated-worker.js");
+
+        worker.postMessage(imageData);
+
+        worker.onmessage = function (event) {
+          var processedImageData = event.data;
+          displayImage(processedImageData);
+        };
+      }
+
+      // Hi?n th? ?nh ?ã qua x? lý lên canvas
+      function displayImage(imageData) {
+        var canvas = document.getElementById("outputCanvas");
+        var ctx = canvas.getContext("2d");
+
+        var img = new Image();
+        img.src = imageData;
+        img.onload = function () {
+          canvas.width = img.width;
+          canvas.height = 2 * img.height;
+          ctx.drawImage(img, 0, 0);
+        };
+      }
+    </script>
+  </body>
+</html>

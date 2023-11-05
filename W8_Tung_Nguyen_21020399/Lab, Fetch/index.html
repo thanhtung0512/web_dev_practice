@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hiển thị dữ liệu JSON</title>
+
+    <meta name="description" content="Free Web tutorials" />
+    <meta name="keywords" content="HTML,CSS,JavaScript" />
+    <meta name="author" content="Nguyen Vu Thanh Tung - 21020399" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <button onclick="loadData()">Tải dữ liệu vào bảng</button>
+    <table id="data-table">
+      <thead>
+        <tr>
+          <th>Họ và tên</th>
+          <th>Tuổi</th>
+          <th>Số lượng/Tên-mẫu xe</th>
+        </tr>
+      </thead>
+      <tbody id="data-body"></tbody>
+    </table>
+
+    <script>
+      function loadData() {
+        fetch("data.json")
+          .then((response) => response.json())
+          .then((data) => {
+            const tableBody = document.getElementById("data-body");
+            tableBody.innerHTML = "";
+
+            data.forEach((item) => {
+              const row = document.createElement("tr");
+
+              const nameCell = document.createElement("td");
+              nameCell.textContent = item.name;
+              row.appendChild(nameCell);
+
+              const ageCell = document.createElement("td");
+              ageCell.textContent = item.age;
+              row.appendChild(ageCell);
+
+              const vehiclesCell = document.createElement("td");
+              const vehicles =
+                item.cars.length +
+                "<br>" +
+                item.cars
+                  .map((car) => car.name + " - " + car.models.join(","))
+                  .join("<br>");
+              vehiclesCell.innerHTML = vehicles;
+              row.appendChild(vehiclesCell);
+
+              tableBody.appendChild(row);
+            });
+          })
+          .catch((error) => console.error("Lỗi:", error));
+      }
+    </script>
+  </body>
+</html>

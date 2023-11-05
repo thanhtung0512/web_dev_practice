@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Free Web tutorials" />
+    <meta name="keywords" content="HTML,CSS,JavaScript" />
+    <meta name="author" content="Nguyen Vu Thanh Tung - 21020399" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shared Worker Example</title>
+  </head>
+  <body>
+    <h1>Image Processing</h1>
+    <input type="file" id="imageInput" accept="image/*" />
+    <br />
+    <canvas id="outputCanvas"></canvas>
+
+    <script>
+      document.getElementById("imageInput").addEventListener("change", function (e) {
+        var file = e.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (event) {
+          var imageData = event.target.result;
+
+          processImage(imageData);
+        };
+
+        reader.readAsDataURL(file);
+      });
+
+      function processImage(imageData) {
+        var worker = new SharedWorker("shared-worker.js");
+
+        worker.port.onmessage = function (event) {
+          var processedImageData = event.data;
+          displayImage(processedImageData);
+        };
+
+        worker.port.postMessage(imageData);
+      }
+
+      function displayImage(imageData) {
+        var canvas = document.getElementById("outputCanvas");
+        var ctx = canvas.getContext("2d");
+
+        var img = new Image();
+        img.onload = function () {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = imageData;
+      }
+    </script>
+  </body>
+</html>

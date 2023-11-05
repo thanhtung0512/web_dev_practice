@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="description" content="Free Web tutorials" />
+    <meta name="keywords" content="HTML,CSS,JavaScript" />
+    <meta name="author" content="Nguyen Vu Thanh Tung - 21020399" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="index.html">Landing Page</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="link1.html" data-section="section1">Route 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="link2.html" data-section="section2">Route 2</a>
+                </li>
+                
+            </ul>
+        </div>
+    </nav>
+
+    <h1>Welcome to the World of Football</h1>
+    
+    <p>Football is a popular sport played and watched by millions around the world. It is a game that brings people together, fosters team spirit, and ignites passion among fans. Here, we'll explore the fascinating world of football.</p>
+
+    <h2>History of Football</h2>
+    <p>Football has a rich history that dates back centuries. It evolved from various forms of folk football played in different cultures. Modern football, as we know it, was codified in the mid-19th century in England. Since then, it has grown to become the world's most popular sport.</p>
+
+    <h2>Popular Football Leagues</h2>
+    <p>Football is played at both professional and amateur levels, but some leagues are renowned for their exceptional quality and global fan following. Some of the most popular football leagues include:</p>
+    <ul>
+        <li>Premier League (England)</li>
+        <li>La Liga (Spain)</li>
+        <li>Serie A (Italy)</li>
+        <li>Bundesliga (Germany)</li>
+        <li>Ligue 1 (France)</li>
+    </ul>
+
+    <h2>Football Legends</h2>
+    <p>Football has seen many legendary players who have left a lasting mark on the sport. Some of these legends include:</p>
+    <ul>
+        <li>Pelé: The Brazilian icon known for his incredible skill and numerous World Cup victories.</li>
+        <li>Diego Maradona: The Argentine magician famous for his "Hand of God" goal and the "Goal of the Century."</li>
+        <li>Lionel Messi: An Argentine superstar who has won multiple Ballon d'Or awards and set numerous records.</li>
+        <li>Cristiano Ronaldo: The Portuguese forward with incredible goal-scoring prowess and a massive fan base.</li>
+        <li>Michel Platini: The French playmaker and three-time Ballon d'Or winner.</li>
+    </ul>
+
+    <h2>The World Cup</h2>
+    <p>The FIFA World Cup is the most prestigious tournament in football. It is held every four years and brings together teams from around the world to compete for the coveted trophy. The World Cup has witnessed unforgettable moments, goals, and emotions.</p>
+
+    <h2>Football Culture</h2>
+    <p>Football is not just a sport; it's a way of life for many. It has its own culture, traditions, and rituals. Fans from different parts of the world come together to support their teams, sing anthems, and create an electrifying atmosphere in stadiums.</p>
+
+    <h2>Conclusion</h2>
+    <p>Football is more than just a game; it's a global phenomenon that unites people, transcends borders, and defines generations. Whether you're a player, a fan, or just an admirer of the sport, football has a special place in the hearts of many.</p>
+
+    <footer>
+        <p>&copy; 2023 Football Enthusiasts</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".nav-link").click(function () {
+                // Get the section identifier from the data-section attribute
+                var section = $(this).data("section");
+
+                // Define content for each section
+                var sectionContent = {
+                    section1: "Content for Section 1 goes here.",
+                    section2: "Content for Section 2 goes here.",
+                    section3: "Content for Section 3 goes here."
+                };
+
+                // Update the content in the 'content' div
+                $("#content").html(sectionContent[section]);
+            });
+        });
+    </script>
+</body>
+</html>

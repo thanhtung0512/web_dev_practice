@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="description" content="Free Web tutorials" />
+    <meta name="keywords" content="HTML,CSS,JavaScript" />
+    <meta name="author" content="Nguyen Vu Thanh Tung - 21020399" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="animationCanvas" width="260" height="409"></canvas>
+    <button id="startButton">Jump</button>
+    <button id="stopButton">Stop</button>
+
+    <script>
+      const canvas = document.getElementById("animationCanvas");
+      const ctx = canvas.getContext("2d");
+
+      const frameWidth = 260;
+      const frameHeight = 409;
+      const frameDuration = 1000; // milliseconds (slower speed)
+      const numFrames = 4;
+      let currentFrameIndex = 0;
+      let animationStartTime = null;
+      let animationRequestId = null;
+
+      const spriteImages = ["jump0.gif", "jump1.gif", "jump2.gif", "jump3.gif"];
+
+      const spriteImageObjects = [];
+      let loadedSprites = 0;
+
+      function loadSprites() {
+        for (let i = 0; i < spriteImages.length; i++) {
+          const spriteImage = new Image();
+          spriteImage.src = spriteImages[i];
+          spriteImage.onload = () => {
+            loadedSprites++;
+            if (loadedSprites === spriteImages.length) {
+              animate();
+            }
+          };
+          spriteImageObjects.push(spriteImage);
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const elapsedTime = performance.now() - animationStartTime;
+        const currentFrameIndex =
+          Math.floor((elapsedTime / frameDuration) * numFrames) % numFrames;
+        const spriteImage = spriteImageObjects[currentFrameIndex];
+        ctx.drawImage(
+          spriteImage,
+          0,
+          0,
+          frameWidth,
+          frameHeight,
+          0,
+          0,
+          frameWidth,
+          frameHeight
+        );
+
+        animationRequestId = requestAnimationFrame(animate);
+      }
+
+      function startAnimation() {
+        if (animationRequestId) return; // Animation is already running
+        animationStartTime = performance.now();
+        animate();
+      }
+
+      function stopAnimation() {
+        if (!animationRequestId) return; // Animation is not running
+        cancelAnimationFrame(animationRequestId);
+        animationRequestId = null;
+      }
+
+      const startButton = document.getElementById("startButton");
+      startButton.addEventListener("click", startAnimation);
+
+      const stopButton = document.getElementById("stopButton");
+      stopButton.addEventListener("click", stopAnimation);
+
+      loadSprites();
+    </script>
+  </body>
+</html>

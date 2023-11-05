@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Form Validation</title>
+    <meta name="description" content="Free Web tutorials" />
+    <meta name="keywords" content="HTML,CSS,JavaScript" />
+    <meta name="author" content="Nguyen Vu Thanh Tung - 21020399" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="myForm">
+      <label for="ma">Mã:</label>
+      <input type="text" id="ma" name="ma" />
+      <span class="error" id="maError"></span><br />
+
+      <label for="hoten">H? tên:</label>
+      <input type="text" id="hoten" name="hoten" />
+      <span class="error" id="hotenError"></span><br />
+
+      <label for="ngaysinh">Ngày sinh:</label>
+      <input type="text" id="ngaysinh" name="ngaysinh" />
+      <span class="error" id="ngaysinhError"></span><br />
+
+      <label for="gioitinh">Gi?i tính:</label>
+      <select id="gioitinh" name="gioitinh">
+        <option value="">-- Ch?n gi?i tính --</option>
+        <option value="Nam">Nam</option>
+        <option value="N?">N?</option></select
+      ><br />
+
+      <label for="quequan">Quê quán:</label>
+      <input type="text" id="quequan" name="quequan" /><br />
+
+      <input type="button" value="Ch?p nh?n" id="chaphanButton" />
+      <input type="button" value="B? qua" id="boquaButton" />
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#chaphanButton").click(function () {
+          // Reset previous errors
+          $(".error").text("");
+
+          // Validation for Mã and H? tên
+          if ($("#ma").val() === "") {
+            $("#maError").text("Ch?a nh?p mã.");
+          }
+          if ($("#hoten").val() === "") {
+            $("#hotenError").text("Ch?a nh?p h? tên.");
+          }
+
+          // Validation for Ngày sinh
+          var ngaysinhValue = $("#ngaysinh").val();
+          if (!isValidDate(ngaysinhValue)) {
+            $("#ngaysinhError").text("Ngày sinh không ?úng.");
+          }
+
+          // Other validations can be added here for additional fields.
+
+          // If there are errors, prevent form submission
+          if ($(".error").text() !== "") {
+            return false;
+          }
+        });
+
+        function isValidDate(dateStr) {
+          var dateParts = dateStr.split("/");
+          if (dateParts.length !== 3) {
+            return false;
+          }
+
+          var day = parseInt(dateParts[0]);
+          var month = parseInt(dateParts[1]);
+          var year = parseInt(dateParts[2]);
+
+          if (
+            year < 1900 ||
+            year > new Date().getFullYear() ||
+            month < 1 ||
+            month > 12
+          ) {
+            return false;
+          }
+
+          var daysInMonth = new Date(year, month, 0).getDate();
+          if (day < 1 || day > daysInMonth) {
+            return false;
+          }
+
+          return true;
+        }
+      });
+    </script>
+  </body>
+</html>
